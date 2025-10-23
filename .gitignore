@@ -1,0 +1,77 @@
+# ------------------------------------
+# General Python Files and Folders
+# ------------------------------------
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+eggs/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environment
+# If you create a virtual environment inside your repo
+venv/
+env/
+/bin/
+/include/
+/lib/
+/share/
+
+# Installer logs
+pip-log.txt
+pip-delete-this-file.txt
+pip-selfcheck.json
+
+# Unit test / coverage reports
+.pytest_cache/
+.coverage
+.tox/
+htmlcov/
+
+# Cython extensions
+*.so
+*.pyd
+
+# ------------------------------------
+# Operating System & Editor Files
+# ------------------------------------
+.DS_Store
+.vscode/
+.idea/
+*~
+*.swp
+.Trash/
+
+# ------------------------------------
+# Data Mining & Lab Specific Exclusions
+# ------------------------------------
+# Generated models, often large and/or non-portable
+# Include common machine learning framework serialization formats
+*.pkl
+*.pickle
+*.h5
+*.hdf5
+*.joblib
+
+# Jupyter Notebook Files (if you use them)
+.ipynb_checkpoints
+
+# Output and Intermediate Files
+# Ignore all files inside the 'json/' directory,
+# assuming these are generated experiment results or model outputs
+**/json/*
+!**/json/.gitkeep # Keep an empty file to track the json folder
+
+# Other specific output files you might create (e.g., visualizations)
+*.png
+*.jpg
+*.tsv
+*.log
