@@ -25,7 +25,7 @@ Follow these steps to set up the project environment and prepare for running the
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/cheporte/data-mining-nulp-course.git
+git clone https://github.com/noqtisnox/data-mining-nulp-course.git
 cd data-mining-nulp-course
 ```
 
