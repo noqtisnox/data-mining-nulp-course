@@ -1,5 +1,6 @@
 import numpy as np
 import sys
+from pathlib import Path
 
 # Дані для однофакторної моделі з попереднього завдання
 data = [
@@ -113,10 +114,61 @@ def quadratic_least_squares(x: list[float], y: list[float]):
         print(f"Виникла непередбачена помилка: {e}", file=sys.stderr)
 
 
+def plot_quadratic_fit(x: list[float], y: list[float], coeffs: tuple[float, float, float], out_path: Path) -> Path:
+    """Plot the data and the fitted quadratic curve and save to out_path.
+
+    Args:
+        x: list of x values
+        y: list of y values
+        coeffs: (b0, b1, b2) coefficients for y = b0 + b1*x + b2*x^2
+        out_path: file path where the PNG will be saved
+
+    Returns:
+        Path to the saved image.
+    """
+    try:
+        import matplotlib.pyplot as plt
+    except Exception:
+        print("matplotlib is required to save the plot; skipping plot generation.", file=sys.stderr)
+        return out_path
+
+    b0, b1, b2 = coeffs
+    x_arr = np.array(x, dtype=float)
+    y_arr = np.array(y, dtype=float)
+
+    xs = np.linspace(x_arr.min(), x_arr.max(), 300)
+    ys = b0 + b1 * xs + b2 * xs ** 2
+
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    plt.figure(figsize=(8, 6))
+    plt.scatter(x_arr, y_arr, color="black", s=40, label="Data")
+    plt.plot(xs, ys, color="red", lw=2, label=f"Quadratic fit: y={b0:.4f}+{b1:.4f}x+{b2:.4f}x^2")
+    plt.title("Quadratic Least Squares Fit")
+    plt.xlabel("X (Area, тис. м^2)")
+    plt.ylabel("Y (Turnover, тис. $)")
+    plt.legend()
+    plt.grid(alpha=0.3)
+    plt.tight_layout()
+    plt.savefig(out_path)
+    plt.close()
+    print(f"Saved quadratic fit plot to: {out_path}")
+    return out_path
+
+
 def main():
     x = data[0]
     y = data[1]
-    quadratic_least_squares(x, y)
+    # Run quadratic least squares and then save a plot of the fit
+    B, A = build_matrices(x, y)
+    try:
+        coefficients = cramers_rule(B, A)
+        b0, b1, b2 = coefficients
+        quadratic_least_squares(x, y)
+        out_file = Path(__file__).parent / "plots" / "least_squares_nonlinear_plot.png"
+        plot_quadratic_fit(x, y, (b0, b1, b2), out_file)
+    except Exception as e:
+        # Let quadratic_least_squares print the error details
+        quadratic_least_squares(x, y)
 
 
 if __name__ == "__main__":
